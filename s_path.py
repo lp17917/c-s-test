@@ -2,6 +2,24 @@ import sys
 import time
 
 
+class PriorityQueue:
+    queue = []
+
+    def pop(self):
+        # Add func
+        min = self.queue[0][2]
+        mindex = 0
+        for i in range(len(self.queue)):
+            if min > self.queue[i][2]
+                mindex = i
+        return self.queue.pop(mindex)
+
+    def push(self, ele):
+        # Add func
+        self.queue.append(ele)
+        return
+
+
 def file_read(file):
     f = open(file, "r")
     s = []
