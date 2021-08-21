@@ -30,6 +30,10 @@ def read_name(name, r_names):
     return False
 
 
+def add_e(start, end, weight):
+    return
+
+
 def main():
     t0 = time.time()
     filename = sys.argv[1]
@@ -49,6 +53,11 @@ def main():
         read_name(finish[i], names)
 
     print(names)
+    path = ["null", origin]
+    for i in range(len(names)):
+        if names[i][0] == origin:
+            names[i][1] = 1
+            add_e("null", origin, 0)
 
 
 if __name__ == "__main__":
