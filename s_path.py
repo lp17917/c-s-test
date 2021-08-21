@@ -10,7 +10,7 @@ class PriorityQueue:
         min = self.queue[0][2]
         mindex = 0
         for i in range(len(self.queue)):
-            if min > self.queue[i][2]
+            if min > self.queue[i][2]:
                 mindex = i
         return self.queue.pop(mindex)
 
