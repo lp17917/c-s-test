@@ -3,7 +3,11 @@ import time
 
 
 class PriorityQueue:
+
     queue = []
+
+    def __init__(self):
+        return
 
     def pop(self):
         # Add func
@@ -25,6 +29,19 @@ class PriorityQueue:
     def display_list(self):
         for i in range(len(self.queue)):
             print("(", self.queue[i][0], "->", self.queue[i][1], ",", self.queue[i][2], ")", end="   ")
+
+    def find(self,ele):
+        for i in range(len(self.queue)):
+            if self.queue[i][1] == ele[1]:
+                return i
+        return -1
+
+    def add_mod(self,ele):
+        pos = self.find(ele)
+        if pos != -1:
+            self.push(ele)
+        else:
+            self.update_priority(pos, ele)
 
 
 def file_read(file):
@@ -84,6 +101,9 @@ def main():
             names[i][1] = 1
             add_e("null", origin, 0)
 
+    prioqueue = PriorityQueue()
+    for i in range(5):
+        prioqueue.push(names[i])
 
 if __name__ == "__main__":
     main()
