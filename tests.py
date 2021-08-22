@@ -19,16 +19,16 @@ class TestMethodsReading(unittest.TestCase):
                        ["F", "D", 5],
                        ["D", "C", 3],
                        ["C", "B", 9]]
-        s, f, w = s_path.file_read("tester.dat")
+        edges = s_path.file_read("tester.dat")
         # Tests that each value in the table is the expected value for the test file
         for i in range(len(tester_read)):
-            self.assertEqual(s[i], tester_read[i][0])
-            self.assertEqual(f[i], tester_read[i][1])
-            self.assertEqual(w[i], tester_read[i][2])
+            self.assertEqual(edges[i][0], tester_read[i][0])
+            self.assertEqual(edges[i][1], tester_read[i][1])
+            self.assertEqual(edges[i][2], tester_read[i][2])
 
     def test_read_act(self):
 
-        s, f, w = s_path.file_read("exmouth-links.dat")
+        edges = s_path.file_read("exmouth-links.dat")
         # A table with some values of the links file and which line they occur on
         test_values = [["J1001", "J1002", 72, 0],
                        ["J1020", "J1017", 430, 55],
@@ -44,9 +44,9 @@ class TestMethodsReading(unittest.TestCase):
 
         # Tests that each value in the table is the expected value for the exmouth-links file
         for i in range(len(test_values)):
-            self.assertEqual(s[test_values[i][3]], test_values[i][0])
-            self.assertEqual(f[test_values[i][3]], test_values[i][1])
-            self.assertEqual(w[test_values[i][3]], test_values[i][2])
+            self.assertEqual(edges[test_values[i][3]][0], test_values[i][0])
+            self.assertEqual(edges[test_values[i][3]][1], test_values[i][1])
+            self.assertEqual(edges[test_values[i][3]][2], test_values[i][2])
 
 
 if __name__ == '__main__':
