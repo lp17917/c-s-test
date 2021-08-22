@@ -23,22 +23,23 @@ class PriorityQueue:
         self.queue.append(ele)
         return
 
-    def update_priority(self, index, priority):
-        self.queue[index][2] = priority
+    def update_priority(self, index, ele):
+        self.queue[index] = ele
 
     def display_list(self):
         for i in range(len(self.queue)):
-            print("(", self.queue[i][0], "->", self.queue[i][1], ",", self.queue[i][2], ")", end="   ")
+            print("(", self.queue[i][1], ",", self.queue[i][2], ")", end="   ")
+        print("")
 
-    def find(self,ele):
+    def find(self, ele):
         for i in range(len(self.queue)):
             if self.queue[i][1] == ele[1]:
                 return i
         return -1
 
-    def add_mod(self,ele):
+    def add_mod(self, ele):
         pos = self.find(ele)
-        if pos != -1:
+        if pos == -1:
             self.push(ele)
         else:
             self.update_priority(pos, ele)
@@ -87,23 +88,33 @@ def main():
         #print("Start: ", start[count], " Finish: ", finish[count], " Weight: ", weight[count])
     t1 = time.time()
     total = t1 - t0
-    print(total)
+    #print(total)
     names = []
     for i in range(len(start)):
         read_name(start[i], names)
     for i in range(len(finish)):
         read_name(finish[i], names)
 
-    print(names)
+    #print(names)
     path = ["null", origin]
     for i in range(len(names)):
         if names[i][0] == origin:
             names[i][1] = 1
             add_e("null", origin, 0)
 
+"""
     prioqueue = PriorityQueue()
+    loading_vals = [["A", "B", 10],
+                    ["C", "D", 11],
+                    ["E", "A", 8],
+                    ["C", "B", 7],
+                    ["A", "D", 1],
+                    ]
     for i in range(5):
-        prioqueue.push(names[i])
+
+        prioqueue.add_mod(loading_vals[i])
+        prioqueue.display_list()
+"""
 
 if __name__ == "__main__":
     main()
