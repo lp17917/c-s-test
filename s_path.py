@@ -47,16 +47,12 @@ class PriorityQueue:
 
 def file_read(file):
     f = open(file, "r")
-    s = []
-    e = []
-    w = []
+    edges = []
     for x in f:
         a = list(map(str, x.split()))
-        s.append(a[0])
-        e.append(a[1])
-        w.append(int(a[2]))
+        edges.append([a[0], a[1], int(a[2])])
     f.close()
-    return s, e, w
+    return edges
 
 
 def name_exists(name, r_names):
@@ -83,17 +79,16 @@ def main():
     origin = sys.argv[2]
     destination = sys.argv[3]
     print("File:", filename, "Origin:", origin, "Destination:", destination)
-    start, finish, weight = file_read(filename)
+    edges = file_read(filename)
     #for count in range(len(start)):
         #print("Start: ", start[count], " Finish: ", finish[count], " Weight: ", weight[count])
     t1 = time.time()
     total = t1 - t0
     #print(total)
     names = []
-    for i in range(len(start)):
-        read_name(start[i], names)
-    for i in range(len(finish)):
-        read_name(finish[i], names)
+    for i in range(len(edges)):
+        read_name(edges[i][0], names)
+        read_name(edges[i][1], names)
 
     #print(names)
     path = ["null", origin]
