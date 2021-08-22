@@ -7,10 +7,10 @@ class PriorityQueue:
 
     def pop(self):
         # Add func
-        min = self.queue[0][2]
+        prio = self.queue[0][2]
         mindex = 0
         for i in range(len(self.queue)):
-            if min > self.queue[i][2]:
+            if prio > self.queue[i][2]:
                 mindex = i
         return self.queue.pop(mindex)
 
@@ -18,6 +18,13 @@ class PriorityQueue:
         # Add func
         self.queue.append(ele)
         return
+
+    def update_priority(self, index, priority):
+        self.queue[index][2] = priority
+
+    def display_list(self):
+        for i in range(len(self.queue)):
+            print("(", self.queue[i][0], "->", self.queue[i][1], ",", self.queue[i][2], ")", end="   ")
 
 
 def file_read(file):
