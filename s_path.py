@@ -80,8 +80,8 @@ def main():
     destination = sys.argv[3]
     print("File:", filename, "Origin:", origin, "Destination:", destination)
     edges = file_read(filename)
-    #for count in range(len(start)):
-        #print("Start: ", start[count], " Finish: ", finish[count], " Weight: ", weight[count])
+    #for count in range(len(edges)):
+        #print("Start: ", edges[count][0], " Finish: ", edges[count][1], " Weight: ", edges[count][2])
     t1 = time.time()
     total = t1 - t0
     #print(total)
