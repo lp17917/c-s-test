@@ -50,65 +50,61 @@ class PriorityQueue:
             self.update_priority(pos, ele)
 
 
-def dijkstra(names, edges, origin, endpoint):
+def dijkstra(edges, origin, endpoint, debug):
     finished = 0
     path = []
     length = 0
+    marked_nodes = []
     prioqueue = PriorityQueue()
     start = ["null", origin, 0]
-    for i in range(len(names)):
-        if names[i][0] == origin:
-            names[i][1] = 1
-            print(len(names))
-            prioqueue.add_mod(start)
-    prioqueue.display_list()
+    prioqueue.add_mod(start)
+    if debug:
+        prioqueue.display_list()
 
     while not finished:
-        nearest = prioqueue.pop()
-        path.append([nearest[0], nearest[1]])
-        if nearest[1] == endpoint:
-            length = nearest[2]
+        if prioqueue.isempty():
             finished = True
+            print("Path could not be found")
+            return [], 0
         else:
-            for i in range(len(names)):
-                if names[i][0] == nearest[1]:
-                    names[i][1] = 2
-            adj_nodes = get_adj(nearest, edges)
-            check_if_fin(names, adj_nodes)
-            addedweight = nearest[2]
-            for i in range(len(adj_nodes)):
-                adj_nodes[i][2] = adj_nodes[i][2] + addedweight
-                prioqueue.add_mod(adj_nodes[i])
-            print(nearest)
-            prioqueue.display_list()
+            nearest = prioqueue.pop()
+            path.append([nearest[0], nearest[1]])
+            if nearest[1] == endpoint:
+                length = nearest[2]
+                finished = True
+            else:
+                marked_nodes.append(nearest[1])
+                adj_nodes = get_adj(marked_nodes, nearest, edges)
+                addedweight = nearest[2]
+                for adj_node in adj_nodes:
+                    adj_node[2] = adj_node[2] + addedweight
+                    prioqueue.add_mod(adj_node)
+
+                if debug:
+                    print(nearest)
+                    prioqueue.display_list()
+
     path = generate_path(path, endpoint)
     return path, length
 
 
-def get_adj(nearest, edges):
+def get_adj(marked_nodes, nearest, edges):
     adj_nodes = []
-    for i in range(len(edges)):
+    for edge in edges:
         # add check for marked nodes
-        if edges[i][0] == nearest[1]:
-            adj_nodes.append(edges[i])
+        if edge[0] == nearest[1]:
+            adj_nodes.append(edge)
+    check_if_fin(marked_nodes, adj_nodes)
     return adj_nodes
 
 
-def check_if_fin(names, adj):
-    for j in range(len(names)):
+def check_if_fin(marked_nodes, adj):
+    for node in marked_nodes:
         for i in range(len(adj)):
-
-            if names[j][1] == 2 and adj[i][1] == names[j][0]:
+            if node == adj[i][1]:
                 adj.pop(i)
                 break
     return
-
-
-def visited_nodes(names, adj_nodes):
-    for j in range(len(names)):
-        for k in range(len(adj_nodes)):
-            if adj_nodes[k][1] == names[j][0]:
-                names[j][1] = 1
 
 
 def generate_path(path, destination):

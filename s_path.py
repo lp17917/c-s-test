@@ -14,38 +14,57 @@ def file_read(file):
     return edges
 
 
-def name_exists(name, r_names):
-    for i in range(len(r_names)):
-        if name == r_names[i][0]:
+def node_exists(node, nodes):
+    for n in nodes:
+        if n == node:
             return True
     return False
 
 
-def read_name(name, r_names):
-    if not name_exists(name, r_names):
-        r_names.append([name, 0])
+def read_name(node, nodes):
+    if not node_exists(node, nodes):
+        nodes.append(node)
         return True
     return False
 
 
 def main():
-    t0 = time.time()
+    debug = False
+    nodes = []
+    path = []
+    length = 0
     filename = sys.argv[1]
     origin = sys.argv[2]
     destination = sys.argv[3]
-    print("File:", filename, "Origin:", origin, "Destination:", destination)
-    edges = file_read(filename)
-    names = []
-    for i in range(len(edges)):
-        read_name(edges[i][0], names)
-        read_name(edges[i][1], names)
 
-    path, length = dijkstra(names, edges, origin, destination)
-    t1 = time.time()
-    for i in range(len(path)):
-        print(path[i])
-    total = t1 - t0
-    print(total)
+    try:
+        if sys.argv[4]:
+            debug = True
+    except IndexError:
+        pass
+
+    if debug:
+        t0 = time.time()
+
+    edges = file_read(filename)
+    for edge in edges:
+        read_name(edge[0], nodes)
+        read_name(edge[1], nodes)
+
+    if debug:
+        print(nodes)
+
+    if node_exists(origin, nodes) and node_exists(destination, nodes):
+        path, length = dijkstra(edges, origin, destination, debug)
+        for stop in path:
+            print(stop)
+
+    if debug:
+        print(length)
+        t1 = time.time()
+
+        total = t1 - t0
+        print(total)
 
 
 if __name__ == "__main__":
