@@ -4,6 +4,7 @@ import time
 from dijkstra import dijkstra
 
 
+# Reads the file specified and generates a list of edges
 def file_read(file):
     f = open(file, "r")
     edges = []
@@ -14,6 +15,7 @@ def file_read(file):
     return edges
 
 
+# Checks to see if a node exists
 def node_exists(node, nodes):
     for n in nodes:
         if n == node:
@@ -21,6 +23,7 @@ def node_exists(node, nodes):
     return False
 
 
+# Adds a node to the list of nodes if not already in the list
 def read_name(node, nodes):
     if not node_exists(node, nodes):
         nodes.append(node)
@@ -46,6 +49,7 @@ def main():
     if debug:
         t0 = time.time()
 
+    # Reads the file for all edges and generates a list of nodes
     edges = file_read(filename)
     for edge in edges:
         read_name(edge[0], nodes)
@@ -54,8 +58,10 @@ def main():
     if debug:
         print(nodes)
 
+    # If both the origin and destination nodes exist run the algorithm
     if node_exists(origin, nodes) and node_exists(destination, nodes):
         path, length = dijkstra(edges, origin, destination, debug)
+        # Writes out the path from the origin to the destination
         for stop in path:
             print(stop)
 
