@@ -40,6 +40,7 @@ def main():
     destination = sys.argv[3]
 
     try:
+
         if sys.argv[4]:
             debug = True
     except IndexError:

@@ -1,6 +1,6 @@
 import queue
 import unittest
-
+import time
 import dijkstra
 import s_path
 
@@ -105,6 +105,7 @@ class TestMethodsQueue(unittest.TestCase):
         pqueue.push(element)
         expected = [["A", "A", 0], ["C", "B", 4], ["J0001", "J0123", 9], ["", "X10", 0], [""]]
         self.assertEqual(expected, pqueue.queue)
+        dijkstra.PriorityQueue.queue = []
 
     def test_pop(self):
         pqueue = dijkstra.PriorityQueue()
@@ -114,6 +115,7 @@ class TestMethodsQueue(unittest.TestCase):
         expected = sorted(addingeles, key=lambda x: x[2])
         for ele in expected:
             self.assertEqual(ele, dijkstra.PriorityQueue.pop(pqueue))
+        dijkstra.PriorityQueue.queue = []
 
     def test_update(self):
         pqueue = dijkstra.PriorityQueue()
@@ -128,12 +130,15 @@ class TestMethodsQueue(unittest.TestCase):
         expected = [["A", "A", 0], ["C", "B", 4], ["J0001", "J0100", 3], ["", "X10", 1], ["A", "C", 2]]
         pqueue.update_priority(4, ["A", "C", 2])
         self.assertEqual(expected, pqueue.queue)
+        dijkstra.PriorityQueue.queue = []
 
     def test_isempty(self):
-        pqueue = dijkstra.PriorityQueue()
-        self.assertTrue(pqueue.isempty())
-        pqueue.push(["A", "A", 0])
-        self.assertFalse(pqueue.isempty())
+        p = dijkstra.PriorityQueue()
+        print(p.queue)
+        self.assertTrue(p.isempty())
+        p.push(["A", "A", 0])
+        self.assertFalse(p.isempty())
+        dijkstra.PriorityQueue.queue = []
 
     def test_find(self):
         pqueue = dijkstra.PriorityQueue()
@@ -145,6 +150,7 @@ class TestMethodsQueue(unittest.TestCase):
         self.assertEqual(pqueue.find(["J0001", "J0123", 9]), 2)
         self.assertEqual(pqueue.find(["", "X10", 1]), 3)
         self.assertEqual(pqueue.find(["C", "B", 4]), 1)
+        dijkstra.PriorityQueue.queue = []
 
 
 class TestMethodsDijkstra(unittest.TestCase):
@@ -163,6 +169,7 @@ class TestMethodsDijkstra(unittest.TestCase):
         for i in range(len(nodes)):
             for j in range(len(nodes)):
                 edges = s_path.file_read("tester.dat")
+                dijkstra.PriorityQueue.queue = []
                 path, length = dijkstra.dijkstra(edges, nodes[i], nodes[j], False)
                 self.assertEqual(lengths[i][j], length)
 
@@ -179,6 +186,7 @@ class TestMethodsDijkstra(unittest.TestCase):
         nodes = ["A", "B", "C", "D", "E", "F"]
         for i in range(len(nodes)):
             for j in range(len(nodes)):
+                dijkstra.PriorityQueue.queue = []
                 edges = s_path.file_read("tester.dat")
                 path, length = dijkstra.dijkstra(edges, nodes[i], nodes[j], False)
                 self.assertEqual(paths[i][j], path)
@@ -188,7 +196,25 @@ class TestMethodsTiming(unittest.TestCase):
 
     def test_timing(self):
         # Write test for timing all nodes in under 1 second
-        pass
+        edges = s_path.file_read("exmouth-links.dat")
+        nodes = []
+        for edge in edges:
+            s_path.add_node(edge[0], nodes)
+            s_path.add_node(edge[1], nodes)
+        maxtime = 0
+
+        for i in range(len(nodes)):
+            for j in range(len(nodes)):
+                dijkstra.PriorityQueue.queue = []
+                t0 = time.time()
+                edges = s_path.file_read("exmouth-links.dat")
+                path, length = dijkstra.dijkstra(edges, nodes[i], nodes[j], False)
+                t1 = time.time()
+                total = t1 - t0
+                if total > maxtime:
+                    maxtime = total
+
+        print(maxtime)
 
 
 if __name__ == '__main__':
