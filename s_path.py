@@ -24,11 +24,10 @@ def node_exists(node, nodes):
 
 
 # Adds a node to the list of nodes if not already in the list
-def read_name(node, nodes):
+def add_node(node, nodes):
     if not node_exists(node, nodes):
         nodes.append(node)
-        return True
-    return False
+    return
 
 
 def main():
@@ -41,6 +40,7 @@ def main():
     destination = sys.argv[3]
 
     try:
+
         if sys.argv[4]:
             debug = True
     except IndexError:
@@ -52,8 +52,8 @@ def main():
     # Reads the file for all edges and generates a list of nodes
     edges = file_read(filename)
     for edge in edges:
-        read_name(edge[0], nodes)
-        read_name(edge[1], nodes)
+        add_node(edge[0], nodes)
+        add_node(edge[1], nodes)
 
     if debug:
         print(nodes)
