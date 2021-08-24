@@ -64,6 +64,8 @@ def main():
         # Writes out the path from the origin to the destination
         for stop in path:
             print(stop)
+    else:
+        print("Node does not exist")
 
     if debug:
         print(length)
