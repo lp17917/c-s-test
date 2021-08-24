@@ -125,11 +125,69 @@ class TestMethodsQueue(unittest.TestCase):
         expected = [["A", "A", 0], ["C", "B", 4], ["J0001", "J0100", 3], ["", "X10", 1], ["B", "C", 5]]
         pqueue.update_priority(2, ["J0001", "J0100", 3])
         self.assertEqual(expected, pqueue.queue)
+        expected = [["A", "A", 0], ["C", "B", 4], ["J0001", "J0100", 3], ["", "X10", 1], ["A", "C", 2]]
+        pqueue.update_priority(4, ["A", "C", 2])
+        self.assertEqual(expected, pqueue.queue)
 
     def test_isempty(self):
-        pass
+        pqueue = dijkstra.PriorityQueue()
+        self.assertTrue(pqueue.isempty())
+        pqueue.push(["A", "A", 0])
+        self.assertFalse(pqueue.isempty())
 
     def test_find(self):
+        pqueue = dijkstra.PriorityQueue()
+        addingeles = [["A", "A", 0], ["C", "B", 4], ["J0001", "J0123", 9], ["", "X10", 1], ["B", "C", 5]]
+        for ele in addingeles:
+            pqueue.push(ele)
+        self.assertEqual(pqueue.find(["A", "A", 0]), 0)
+        self.assertEqual(pqueue.find(["B", "C", 5]), 4)
+        self.assertEqual(pqueue.find(["J0001", "J0123", 9]), 2)
+        self.assertEqual(pqueue.find(["", "X10", 1]), 3)
+        self.assertEqual(pqueue.find(["C", "B", 4]), 1)
+
+
+class TestMethodsDijkstra(unittest.TestCase):
+
+    def test_dijkstra_length(self):
+        # Use the test file to generate all the lengths and check them
+        nodes = ["A", "B", "C", "D", "E", "F"]
+
+        lengths = [[0, 10, 1, 4, 12, 6],
+                   [10, 0, 11, 13, 2, 8],
+                   [7, 9, 0, 3, 11, 13],
+                   [10, 12, 3, 0, 14, 16],
+                   [8, 18, 9, 11, 0, 6],
+                   [15, 17, 8, 5, 19, 0]]
+
+        for i in range(len(nodes)):
+            for j in range(len(nodes)):
+                edges = s_path.file_read("tester.dat")
+                path, length = dijkstra.dijkstra(edges, nodes[i], nodes[j], False)
+                self.assertEqual(lengths[i][j], length)
+
+    def test_dijkstra_path(self):
+        # Use the test file to generate all the paths and check them
+
+        paths = [[["A"], ["A", "C", "B"], ["A", "C"], ["A", "C", "D"], ["A", "E"], ["A", "F"]],
+                 [["B", "E", "A"], ["B"], ["B", "E", "A", "C"], ["B", "F", "D"], ["B", "E"], ["B", "F"]],
+                 [["C", "A"], ["C", "B"], ["C"], ["C", "D"], ["C", "B", "E"], ["C", "A", "F"]],
+                 [["D", "C", "A"], ["D", "C", "B"], ["D", "C"], ["D"], ["D", "C", "B", "E"], ["D", "C", "A", "F"]],
+                 [["E", "A"], ["E", "A", "C", "B"], ["E", "A", "C"], ["E", "F", "D"], ["E"], ["E", "F"]],
+                 [["F", "D", "C", "A"], ["F", "D", "C", "B"], ["F", "D", "C"], ["F", "D"], ["F", "D", "C", "B", "E"], ["F"]]
+                 ]
+        nodes = ["A", "B", "C", "D", "E", "F"]
+        for i in range(len(nodes)):
+            for j in range(len(nodes)):
+                edges = s_path.file_read("tester.dat")
+                path, length = dijkstra.dijkstra(edges, nodes[i], nodes[j], False)
+                self.assertEqual(paths[i][j], path)
+
+
+class TestMethodsTiming(unittest.TestCase):
+
+    def test_timing(self):
+        # Write test for timing all nodes in under 1 second
         pass
 
 
