@@ -22,3 +22,5 @@ To use debug mode add any character after the destination node which will displa
 the priority queue
 
 The shortest path algorithm used within the code is Dijkstra algorithm https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+
+This code could be made more scalable by using a heap for the priority queue for the adjacent edges using the heapq library
