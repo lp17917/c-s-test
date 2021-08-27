@@ -15,6 +15,7 @@ class PriorityQueue:
             for i in range(len(self.queue)):
                 if prio > self.queue[i][2]:
                     mindex = i
+                    prio = self.queue[i][2]
             return self.queue.pop(mindex)
 
     def push(self, ele):
