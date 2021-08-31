@@ -115,6 +115,16 @@ class TestMethodsQueue(unittest.TestCase):
         expected = sorted(addingeles, key=lambda x: x[2])
         for ele in expected:
             self.assertEqual(ele, dijkstra.PriorityQueue.pop(pqueue))
+        pqueue = None
+
+    def test_pop_bug(self):
+        pqueue = dijkstra.PriorityQueue()
+        addingeles = [["A", "A", 8], ["C", "B", 4], ["J0001", "J0123", 9], ["", "X10", 1], ["B", "C", 5]]
+        for ele in addingeles:
+            pqueue.push(ele)
+        expected = sorted(addingeles, key=lambda x: x[2])
+        for ele in expected:
+            self.assertEqual(ele, dijkstra.PriorityQueue.pop(pqueue))
         dijkstra.PriorityQueue.queue = []
 
     def test_update(self):
@@ -130,14 +140,14 @@ class TestMethodsQueue(unittest.TestCase):
         expected = [["A", "A", 0], ["C", "B", 4], ["J0001", "J0100", 3], ["", "X10", 1], ["A", "C", 2]]
         pqueue.update_priority(4, ["A", "C", 2])
         self.assertEqual(expected, pqueue.queue)
-        dijkstra.PriorityQueue.queue = []
+        pqueue = None
 
     def test_isempty(self):
-        p = dijkstra.PriorityQueue()
-        print(p.queue)
-        self.assertTrue(p.isempty())
-        p.push(["A", "A", 0])
-        self.assertFalse(p.isempty())
+        pqueue = dijkstra.PriorityQueue()
+        print(pqueue.queue)
+        self.assertTrue(pqueue.isempty())
+        pqueue.push(["A", "A", 0])
+        self.assertFalse(pqueue.isempty())
         dijkstra.PriorityQueue.queue = []
 
     def test_find(self):
